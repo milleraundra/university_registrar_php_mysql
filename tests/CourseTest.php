@@ -5,6 +5,7 @@
     */
 
     require_once "src/Course.php";
+    require_once "src/Student.php";
 
     $server = 'mysql:host=localhost;dbname=university_registrar_test';
     $username = 'root';
@@ -16,6 +17,7 @@
         protected function tearDown()
         {
             Course::deleteAll();
+            Student::deleteAll();
         }
 
         function test_allGetters()
@@ -105,6 +107,24 @@
 
             $this->assertEquals($new_course_name, $course->getCourseName());
         }
+
+        function test_deleteOne()
+        {
+            $course_name = "Biology";
+            $id = null;
+            $course = new Course($course_name, $id);
+            $course->save();
+
+            $course_name2 = "Economics";
+            $course2 = new Course($course_name2, $id);
+            $course2->save();
+
+            $course->delete();
+            $result = Course::getAll();
+
+            $this->assertEquals([$course2], $result);
+        }
+
 
     }
 ?>
