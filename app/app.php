@@ -76,6 +76,31 @@
         return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
     });
 
+    $app->get("/courses/{id}/edit", function($id) use ($app) {
+        $course = Course::find($id);
+        return $app['twig']->render('course_edit.html.twig', array('course' => $course, 'students' => Student::getAll()));
+    });
+
+    $app->post("/course_add/{id}/student", function($id) use ($app) {
+        $course = Course::find($id);
+        $student = Student::find($_POST['student']);
+        $course->addStudent($student);
+        return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
+    });
+
+    $app->patch("/course/{id}/edit_name", function($id) use ($app) {
+        $course = Course::find($id);
+        $course_name = $_POST['course_name'];
+        $course->update($course_name);
+        return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
+    });
+
+    $app->delete("/course/{id}/delete", function($id) use ($app) {
+        $course = Course::find($id);
+        $course->delete();
+        return $app['twig']->render('courses.html.twig', array('courses' => Course::getAll()));
+    });
+
     return $app;
 
  ?>
