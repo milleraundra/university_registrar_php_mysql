@@ -33,8 +33,53 @@
         }
 
         function getId()
+
         {
             return $this->id;
+        }
+
+        function save()
+        {
+            $GLOBALS['DB']->exec("INSERT INTO students (name, enrollment_date) VALUES ('{$this->getName()}', '{$this->getEnrollmentDate()}')");
+            $this->id = $GLOBALS['DB']->lastInsertId();
+        }
+
+        static function getAll()
+        {
+            $all_students = $GLOBALS['DB']->query("SELECT * FROM students");
+            $students = array();
+            foreach($all_students as $student) {
+                $name = $student['name'];
+                $enrollment_date = $student['enrollment_date'];
+                $id = $student['id'];
+                $new_student = new Student($name, $enrollment_date, $id);
+                array_push($students, $new_student);
+            }
+            return $students;
+        }
+
+        static function deleteAll()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM students");
+        }
+
+        static function find($id)
+        {
+            $all_students = Student::getAll();
+            $found_student = null;
+            foreach($all_students as $student) {
+                $student_id = $student->getId();
+                if ($student_id == $id) {
+                    $found_student = $student;
+                }
+            }
+            return $found_student;
+        }
+
+        function update($new_name)
+        {
+            $GLOBALS['DB']->exec("UPDATE student SET name = '{$new_name}' WHERE id = {$this->getId()};");
+            $this->setName($new_name);
         }
     }
 
