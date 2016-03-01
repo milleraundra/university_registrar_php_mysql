@@ -46,7 +46,7 @@
 
         static function getAll()
         {
-            $all_students = $GLOBALS['DB']->query("SELECT * FROM students");
+            $all_students = $GLOBALS['DB']->query("SELECT * FROM students;");
             $students = array();
             foreach($all_students as $student) {
                 $name = $student['name'];
@@ -78,7 +78,7 @@
 
         function update($new_name)
         {
-            $GLOBALS['DB']->exec("UPDATE student SET name = '{$new_name}' WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("UPDATE students SET name = '{$new_name}' WHERE id = {$this->getId()};");
             $this->setName($new_name);
         }
 

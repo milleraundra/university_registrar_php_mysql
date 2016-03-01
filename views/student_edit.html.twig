@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>University Registrar</title>
+    </head>
+    <body>
+        <h1>{{ student.getName }}</h1>
+        <h2>Add Student to a Course</h2>
+            <form class="" action="/student_add/{{ student.getId }}/course" method="post">
+                <label for="course">Choose a Course:</label>
+                <select class="" name="course">
+                    {% for course in courses %}
+                        <option value="{{ course.getId }}">{{ course.getCourseName }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" name="button">Add Course To Student</button>
+            </form>
+
+        <h2>Update Student Info:</h2>
+            <form class="" action="/student/{{ student.getId }}/edit_name" method="post">
+                <input name="_method" type="hidden" value="patch">
+                <label for="name">New Name:</label>
+                <input type="text" name="name" value="{{ student.getName }}">
+                <button type="submit" name="button">Update Student</button>
+            </form>
+
+        <h2>Delete Student:</h2>
+            <form class="" action="/student/{{ student.getId }}/delete" method="post">
+                <input name="_method" type="hidden" value="delete">
+                <button type="submit" name="button">Delete Student</button>
+            </form>
+
+
+    </body>
+</html>

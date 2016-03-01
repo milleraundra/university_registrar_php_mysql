@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>University Registrar</title>
+    </head>
+    <body>
+        <h1>Students</h1>
+        {% if students is not empty %}
+            <ul>
+            {% for student in students %}
+                    <h3>{{ student.getName }}</h3>
+                    <li>Enrollment Date: {{ student.getEnrollmentDate }}</li>
+                    {% if student.getCourses is not empty %}
+                    <ul>
+                        {% for course in student.getCourses %}
+                        <li>{{ course.getCourseName }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <p>This student is not signed up for any courses.</p>
+                    {% endif %}
+                     <p><a href="/students/{{ student.getId }}/edit">Edit this Student</a></p>
+                    </form>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>
+                No students added yet!
+            </p>
+        {% endif %}
+
+        <form action="/students_add" method="post">
+            <label for="name">Student Name</label>
+                <input type="text" name="name">
+            <label for="enrollment_date">Enrollment Date</label>
+                <input type="date" name="enrollment_date" value="enrollment_date">
+
+            <button type="submit" name="button">Submit</button>
+        </form>
+
+        <a href="/">home</a>
+    </body>
+</html>
