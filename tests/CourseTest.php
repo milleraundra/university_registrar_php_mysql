@@ -76,5 +76,35 @@
             $this->assertEquals([], Course::getAll());
         }
 
+        function test_find()
+        {
+            $course_name = "Biology";
+            $id = null;
+            $course = new Course($course_name, $id);
+            $course->save();
+
+            $course_name2 = "Economics";
+            $course2 = new Course($course_name2, $id);
+            $course2->save();
+
+            $result = Course::find($course->getId());
+
+            $this->assertEquals($course, $result);
+
+        }
+
+        function test_update()
+        {
+            $course_name = "Biology";
+            $id = null;
+            $course = new Course($course_name, $id);
+            $course->save();
+
+            $new_course_name = "Science";
+            $course->update($new_course_name);
+
+            $this->assertEquals($new_course_name, $course->getCourseName());
+        }
+
     }
 ?>

@@ -49,5 +49,24 @@
             $GLOBALS['DB']->exec("DELETE FROM courses");
         }
 
+        static function find($id)
+        {
+            $all_courses = Course::getAll();
+            $found_course = null;
+            foreach($all_courses as $course) {
+                $course_id = $course->getId();
+                if ($course_id == $id) {
+                    $found_course = $course;
+                }
+            }
+            return $found_course;
+        }
+
+        function update($new_course_name)
+        {
+            $GLOBALS['DB']->exec("UPDATE courses SET course_name = '{$new_course_name}' WHERE id={$this->getId()};");
+            $this->setCourseName($new_course_name);
+        }
+
     }
  ?>
