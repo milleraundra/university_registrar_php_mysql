@@ -1,0 +1,6 @@
+# university_registrar_php_mysql
+PHP Week 4 Day 2
+
+INCOMPLETE:
+- Add 'addDepartment' and 'getDepartments' to Course class.
+- Update all twig and silex to include Department selections for a student.
