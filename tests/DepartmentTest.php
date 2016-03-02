@@ -126,6 +126,46 @@
             $this->assertEquals([$test_department2], $result);
         }
 
+        function test_addCourse()
+        {
+            $department_name = "Science";
+            $id = null;
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $course_name = "Biology";
+            $id = null;
+            $test_course = new Course($course_name, $id);
+            $test_course->save();
+
+            $test_department->addCourse($test_course);
+
+            $this->assertEquals($test_department->getCourses(), [$test_course]);
+        }
+
+        function test_getCourses()
+        {
+            $department_name = "Science";
+            $id = null;
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $course_name = "Biology";
+            $id = null;
+            $test_course = new Course($course_name, $id);
+            $test_course->save();
+
+            $course_name2 = "Economics";
+            $test_course2 = new Course($course_name2, $id);
+            $test_course2->save();
+
+            $test_department->addCourse($test_course);
+            $test_department->addCourse($test_course2);
+
+            $this->assertEquals($test_department->getCourses(), [$test_course, $test_course2]);
+        }
+
+
 
 
     }

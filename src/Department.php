@@ -87,7 +87,25 @@
                 array_push($students, $new_student);
             }
             return $students;
+        }
 
+        function addCourse($course)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO departments_courses (department_id, courses_id) VALUES ({$this->getId()}, {$course->getId()}) ;");
+        }
+
+        function getCourses()
+        {
+            $query = $GLOBALS['DB']->query("SELECT courses.* FROM departments JOIN departments_courses ON (departments.id = departments_courses.department_id) JOIN courses ON (departments_courses.courses_id = courses.id) WHERE departments.id = {$this->getId()}; ");
+            $returned_courses = $query->fetchAll(PDO::FETCH_ASSOC);
+            $courses = array();
+            foreach($returned_courses as $course){
+                $course_name = $course['course_name'];
+                $id = $course['id'];
+                $new_course = new Course($course_name, $id);
+                array_push( $courses, $new_course);
+            }
+            return $courses;
         }
 
     }
