@@ -6,6 +6,7 @@
 
     require_once "src/Student.php";
     require_once "src/Course.php";
+    require_once "src/Department.php";
 
     $server = 'mysql:host=localhost;dbname=university_registrar_test';
     $username = 'root';
@@ -19,31 +20,42 @@
         {
             Student::deleteAll();
             Course::deleteAll();
+            Department::deleteAll();
         }
 
         function test_allGetters()
         {
             $name = "Thelma English";
             $enrollment_date = "2016-03-13";
+            $department_id = 1;
             $id = 1;
 
-            $test_student = new Student($name, $enrollment_date, $id);
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
 
             $result1 = $test_student->getName();
             $result2 = $test_student->getEnrollmentDate();
             $result3 = $test_student->getId();
+            $result4 = $test_student->getDepartmentId();
 
             $this->assertEquals($name, $result1);
             $this->assertEquals($enrollment_date, $result2);
             $this->assertEquals($id, is_numeric($result3));
+            $this->assertEquals($department_id, $result4);
         }
 
         function test_save()
         {
-            $name = "Thelma English";
-            $enrollment_date = "2016-03-13";
+
+            $department_name = "Science";
             $id = null;
-            $test_student = new Student($name, $enrollment_date, $id);
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $name = "Thelma English";
+            $id = null;
+            $enrollment_date = "2016-03-13";
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $result = Student::getAll();
@@ -53,15 +65,21 @@
 
         function test_getAll()
         {
-            $name = "Thelma English";
-            $enrollment_date = "2016-03-13";
+            $department_name = "Science";
             $id = null;
-            $test_student = new Student($name, $enrollment_date, $id);
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $name = "Thelma English";
+            $id = null;
+            $enrollment_date = "2016-03-13";
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $name2 = "Poppy Fredrick";
             $enrollment_date2 = "2016-03-14";
-            $test_student2 = new Student($name2, $enrollment_date2, $id);
+            $test_student2 = new Student($name2, $enrollment_date2, $department_id, $id);
             $test_student2->save();
 
             $result = Student::getAll();
@@ -71,15 +89,21 @@
 
         function test_deleteAll()
         {
-            $name = "Thelma English";
-            $enrollment_date = "2016-03-13";
+            $department_name = "Science";
             $id = null;
-            $test_student = new Student($name, $enrollment_date, $id);
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $name = "Thelma English";
+            $id = null;
+            $enrollment_date = "2016-03-13";
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $name2 = "Poppy Fredrick";
             $enrollment_date2 = "2016-03-14";
-            $test_student2 = new Student($name2, $enrollment_date2, $id);
+            $test_student2 = new Student($name2, $enrollment_date2, $department_id, $id);
             $test_student2->save();
 
             Student::deleteAll();
@@ -90,10 +114,16 @@
 
         function test_find()
         {
-            $name = "Thelma English";
-            $enrollment_date = "2016-03-13";
+            $department_name = "Science";
             $id = null;
-            $test_student = new Student($name, $enrollment_date, $id);
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $name = "Thelma English";
+            $id = null;
+            $enrollment_date = "2016-03-13";
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $result = Student::find($test_student->getId());
@@ -103,10 +133,17 @@
 
         function test_update()
         {
-            $name = "Thelma English";
-            $enrollment_date = "2016-03-13";
+
+            $department_name = "Science";
             $id = null;
-            $test_student = new Student($name, $enrollment_date, $id);
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $name = "Thelma English";
+            $id = null;
+            $enrollment_date = "2016-03-13";
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $new_name = "Bob Saget";
@@ -118,15 +155,21 @@
 
         function test_deleteOne()
         {
-            $name = "Thelma English";
-            $enrollment_date = "2016-03-13";
+            $department_name = "Science";
             $id = null;
-            $test_student = new Student($name, $enrollment_date, $id);
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
+            $name = "Thelma English";
+            $id = null;
+            $enrollment_date = "2016-03-13";
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $name2 = "Poppy Fredrick";
             $enrollment_date2 = "2016-03-14";
-            $test_student2 = new Student($name2, $enrollment_date2, $id);
+            $test_student2 = new Student($name2, $enrollment_date2, $department_id, $id);
             $test_student2->save();
 
             $test_student->delete();
@@ -137,6 +180,11 @@
 
         function test_addCourse()
         {
+            $department_name = "Science";
+            $id = null;
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
             $course_name = "Biology";
             $id = null;
             $test_course = new Course($course_name, $id);
@@ -144,7 +192,8 @@
 
             $name = "Thelma English";
             $enrollment_date = "2016-03-13";
-            $test_student = new Student($name, $enrollment_date, $id);
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $test_student->addCourse($test_course);
@@ -155,6 +204,11 @@
 
         function test_getCourses()
         {
+            $department_name = "Science";
+            $id = null;
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
             $course_name = "Biology";
             $id = null;
             $test_course = new Course($course_name, $id);
@@ -166,7 +220,8 @@
 
             $name = "Thelma English";
             $enrollment_date = "2016-03-13";
-            $test_student = new Student($name, $enrollment_date, $id);
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $test_student->addCourse($test_course);

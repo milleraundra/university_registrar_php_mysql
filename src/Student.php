@@ -3,12 +3,14 @@
     class Student {
         private $name;
         private $enrollment_date;
+        private $department_id;
         private $id;
 
-        function __construct($name, $enrollment_date, $id = null)
+        function __construct($name, $enrollment_date, $department_id, $id = null)
         {
             $this->name = $name;
             $this->enrollment_date = $enrollment_date;
+            $this->department_id = $department_id;
             $this->id = $id;
         }
 
@@ -32,6 +34,16 @@
             return $this->enrollment_date;
         }
 
+        function setDepartmentId($new_department_id)
+        {
+            $this->department_id = $new_department_id;
+        }
+
+        function getDepartmentId()
+        {
+            return $this->department_id;
+        }
+
         function getId()
 
         {
@@ -40,7 +52,7 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO students (name, enrollment_date) VALUES ('{$this->getName()}', '{$this->getEnrollmentDate()}')");
+            $GLOBALS['DB']->exec("INSERT INTO students (name, enrollment_date, department_id) VALUES ('{$this->getName()}', '{$this->getEnrollmentDate()}', {$this->getDepartmentId()})");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
@@ -51,8 +63,9 @@
             foreach($all_students as $student) {
                 $name = $student['name'];
                 $enrollment_date = $student['enrollment_date'];
+                $department_id = $student['department_id'];
                 $id = $student['id'];
-                $new_student = new Student($name, $enrollment_date, $id);
+                $new_student = new Student($name, $enrollment_date, $department_id, $id);
                 array_push($students, $new_student);
             }
             return $students;

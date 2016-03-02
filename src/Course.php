@@ -86,8 +86,9 @@
             foreach($all_students as $student) {
                 $name = $student['name'];
                 $enrollment_date = $student['enrollment_date'];
+                $department_id = $student['department_id'];
                 $id = $student['id'];
-                $new_student = new Student($name, $enrollment_date, $id);
+                $new_student = new Student($name, $enrollment_date, $department_id, $id);
                 array_push($students, $new_student);
             }
             return $students;

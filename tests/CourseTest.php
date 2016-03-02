@@ -18,6 +18,7 @@
         {
             Course::deleteAll();
             Student::deleteAll();
+            Department::deleteAll();
         }
 
         function test_allGetters()
@@ -127,6 +128,11 @@
 
         function test_addStudent()
         {
+            $department_name = "Science";
+            $id = null;
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
             $course_name = "Biology";
             $id = null;
             $test_course = new Course($course_name, $id);
@@ -134,7 +140,8 @@
 
             $name = "Thelma English";
             $enrollment_date = "2016-03-13";
-            $test_student = new Student($name, $enrollment_date, $id);
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $test_course->addStudent($test_student);
@@ -144,6 +151,11 @@
 
         function test_getStudents()
         {
+            $department_name = "Science";
+            $id = null;
+            $test_department = new Department($department_name, $id);
+            $test_department->save();
+
             $course_name = "Biology";
             $id = null;
             $test_course = new Course($course_name, $id);
@@ -151,12 +163,13 @@
 
             $name = "Thelma English";
             $enrollment_date = "2016-03-13";
-            $test_student = new Student($name, $enrollment_date, $id);
+            $department_id = $test_department->getId();
+            $test_student = new Student($name, $enrollment_date, $department_id, $id);
             $test_student->save();
 
             $name2 = "Roger Rook";
             $enrollment_date2 = "2018-04-18";
-            $test_student2 = new Student($name2, $enrollment_date2, $id);
+            $test_student2 = new Student($name2, $enrollment_date2, $department_id, $id);
             $test_student2->save();
 
             $test_course->addStudent($test_student);
